@@ -7,6 +7,19 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 public class FileFacilitator {
+
+    private void showInfo(String message) {
+        JOptionPane.showMessageDialog(null, message);
+    }
+
+    private void showError(String errorMessage) {
+        JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private String directoryPath() {
+        return String.format("%s/%s", FileFacilitator.class.getProtectionDomain().
+                getCodeSource().getLocation().getPath(), org_file);
+    }
     private static final String
             Downloads = System.getProperty("user.home") + "/Downloads"; // Path to the Downloads folder
     private static final String
@@ -17,7 +30,7 @@ public class FileFacilitator {
     public static void main(String[] args) {
         FileFacilitator fileManager = new FileFacilitator();
         fileManager.monitor();
-        fileManager.checkDirectory();
+        fileManager.checkFile();
     }
 
     private void monitor() {
@@ -33,7 +46,7 @@ public class FileFacilitator {
                 WatchKey key = watchService.take();
                 for (WatchEvent<?> event : key.pollEvents()) {
                     if (event.kind() == StandardWatchEventKinds.OVERFLOW) {
-                        continue; // Overflow event, skip it
+                        continue; 
                     }
 
                     Path filePath = path.resolve((Path) event.context());
@@ -80,7 +93,7 @@ public class FileFacilitator {
         }
     }
 
-    private void checkDirectory() {
+    private void checkFile() {
         String path = FileFacilitator.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         File file = new File(path);
         String jarDir = file.getParentFile().getAbsolutePath();
@@ -133,7 +146,7 @@ public class FileFacilitator {
         for (String[] type : fileTypes) {
             if (type[0].equalsIgnoreCase(fileExtension)) {
                 folderChecker(type[1], file);
-                return; // Exit after handling the extension
+                return; 
             }
         }
     }
@@ -171,26 +184,12 @@ public class FileFacilitator {
             }
         }
     }
-
     private String getFileExtension(String fileName) {
         int dotIndex = fileName.lastIndexOf('.');
         if (dotIndex > 0 && dotIndex < fileName.length() - 1) {
             return fileName.substring(dotIndex + 1).toLowerCase();
         }
         return "";
-    }
-
-    private void showInfo(String message) {
-        JOptionPane.showMessageDialog(null, message);
-    }
-
-    private void showError(String errorMessage) {
-        JOptionPane.showMessageDialog(null, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private String directoryPath() {
-        return String.format("%s/%s", FileFacilitator.class.getProtectionDomain().
-                getCodeSource().getLocation().getPath(), org_file);
     }
 }
 
