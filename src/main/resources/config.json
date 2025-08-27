@@ -1,0 +1,11 @@
+
+  {
+  "watchFolder": "watched",
+  "rules": {
+    "pdf": "Documents/PDFs",
+    "jpg": "Pictures",
+    "png": "Pictures",
+    "zip": "Archives",
+    "docx": "Documents/Word"
+  }
+}
